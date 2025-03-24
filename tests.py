@@ -1,32 +1,9 @@
-from main import BooksCollector
 import pytest
 
-# класс TestBooksCollector объединяет набор тестов, которыми мы покрываем наше приложение BooksCollector
-# обязательно указывать префикс Test
 class TestBooksCollector:
 
-    # пример теста:
-    # обязательно указывать префикс test_
-    # дальше идет название метода, который тестируем add_new_book_
-    # затем, что тестируем add_two_books - добавление двух книг
     def test_add_new_book_add_two_books(self):
-        # создаем экземпляр (объект) класса BooksCollector
-        collector = BooksCollector()
-
-        # добавляем две книги
-        collector.add_new_book('Гордость и предубеждение и зомби')
-        collector.add_new_book('Что делать, если ваш кот хочет вас убить')
-
-        # проверяем, что добавилось именно две
-        # словарь books_rating, который нам возвращает метод get_books_rating, имеет длину 2
         assert len(collector.books_genre.keys()) == 2
-
-    # напиши свои тесты ниже
-    # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
-
-    @pytest.fixture
-    def collector(self):
-        return BooksCollector()
 
     def test_add_new_book_name_add_more_fourty_symbols_not_added(self, collector):
         collector.add_new_book('Что делать, если ваш кот хочет вас убить 2')
@@ -94,3 +71,10 @@ class TestBooksCollector:
         collector.add_new_book('Золушка')
         collector.add_book_in_favorites('Золушка')
         assert collector.get_list_of_favorites_books() == ['Молчание ягнят', 'Золушка']
+
+    def test_get_books_genre_positive_result(self, collector):
+        collector.add_new_book('Попугай Кеша')
+        collector.set_book_genre('Попугай Кеша', 'Мультфильмы')
+        collector.add_new_book('Кошмар на улице Вязов')
+        collector.set_book_genre('Кошмар на улице Вязов', 'Ужасы')
+        assert len(collector.get_books_genre().keys()) == 2
